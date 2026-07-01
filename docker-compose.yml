@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alert_rules.yml:/etc/prometheus/alert_rules.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - monitoring
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+    networks:
+      - monitoring
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-demo
+    ports:
+      - "8080:80"
+    networks:
+      - monitoring
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx-exporter
+    ports:
+      - "9113:9113"
+    command:
+      - '-nginx.scrape-uri=http://nginx:80/stub_status'
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
+
+    
+
+###This Docker Compose file defines a complete monitoring environment for an NGINX application using Prometheus and Alertmanager. It provisions four containerized services: Prometheus for metrics collection and alert evaluation, Alertmanager for managing and forwarding alerts, NGINX as the monitored web server, and the NGINX Prometheus Exporter for exposing NGINX metrics in a Prometheus-compatible format. Configuration files are mounted as volumes to enable custom monitoring and alerting rules, while port mappings provide access to each service's web interface. All containers are connected through a dedicated bridge network named monitoring, allowing seamless communication between the monitoring components and the monitored application.
+

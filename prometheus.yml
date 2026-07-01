@@ -1,0 +1,22 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']
+
+rule_files:
+  - "alert_rules.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx-exporter:9113']
+
+      ##### This configuration file defines the core settings for the Prometheus monitoring server. It specifies the global scrape and evaluation intervals, configures Alertmanager as the destination for alert notifications, and loads external alerting rules from the `alert_rules.yml` file. The file also defines scrape jobs for collecting metrics from the Prometheus server itself and from the NGINX Prometheus Exporter. By periodically scraping these targets, Prometheus gathers performance and availability metrics, evaluates alert conditions, and forwards triggered alerts to Alertmanager for notification and incident management.

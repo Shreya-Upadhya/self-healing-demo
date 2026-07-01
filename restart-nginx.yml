@@ -1,0 +1,25 @@
+---
+- name: Restart NGINX container
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Check if NGINX container exists
+      docker_container_info:
+        name: nginx-demo
+      register: container_info
+
+    - name: Restart NGINX container
+      docker_container:
+        name: nginx-demo
+        state: started
+        image: nginx
+        ports:
+          - "8080:80"
+        restart_policy: always
+      when: container_info.exists
+
+    - name: Print recovery message
+      debug:
+        msg: "✅ NGINX has been automatically restarted at {{ ansible_date_time.iso8601 }}"
+        
+        ##### This Ansible playbook automates the recovery of the NGINX container by checking whether the container exists and restarting it if necessary. It runs locally on the host machine using Ansible's Docker modules to inspect and manage the container. If the `nginx-demo` container is found, the playbook ensures it is in a running state with the appropriate image, port mapping, and restart policy. After the restart operation, a confirmation message with a timestamp is displayed, providing a record of the automated recovery action. This playbook can be integrated with monitoring and alerting systems to enable self-healing of the NGINX service after a failure is detected.

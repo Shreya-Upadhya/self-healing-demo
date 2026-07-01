@@ -1,0 +1,14 @@
+groups:
+  - name: nginx_alerts
+    interval: 30s
+    rules:
+      - alert: NginxDown
+        expr: up{job="nginx"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "NGINX is down"
+          description: "NGINX container has been down for more than 30 seconds"
+
+          ###This file contains Prometheus alerting rules used to monitor the health and availability of the NGINX service. It defines a rule group that is evaluated every 30 seconds and triggers a critical alert when the NGINX target becomes unreachable (up == 0) for more than 30 seconds. The alert includes descriptive annotations to provide a clear summary and detailed message, making it easier to identify and respond to service outages. This configuration is intended to be used with Prometheus and Alertmanager for automated monitoring and notifications in containerized or cloud-native environments.
