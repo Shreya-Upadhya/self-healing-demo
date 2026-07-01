@@ -2,7 +2,7 @@
 # Self-Healing Infrastructure with Prometheus, Alertmanager & Ansible
 
 ## 📌 Project Overview
-This project implements a **self-healing infrastructure** that automatically detects service failures and recovers them without human intervention. When the NGINX web server goes down, the system automatically restarts it within 30-45 seconds.
+This project implements a self-healing infrastructure that automatically detects service failures and recovers them without human intervention. When the NGINX web server goes down, the system automatically restarts it within 30-45 seconds.
 
 ## 🎯 Objective
 - Automatically detect service failures using Prometheus
@@ -85,8 +85,8 @@ docker stop nginx-demo
 
 # Wait 30-45 seconds
 # NGINX will automatically restart!
+```/
 ```
-
 ## 📊 Access Points
 | Service | URL |
 |---------|-----|
