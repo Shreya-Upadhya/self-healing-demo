@@ -1,16 +1,18 @@
-```markdown
 # Self-Healing Infrastructure with Prometheus, Alertmanager & Ansible
 
 ## 📌 Project Overview
-This project implements a self-healing infrastructure that automatically detects service failures and recovers them without human intervention. When the NGINX web server goes down, the system automatically restarts it within 30-45 seconds.
+
+This project implements a self-healing infrastructure that automatically detects service failures and recovers them without human intervention. When the NGINX web server goes down, the system automatically restarts it within **30–45 seconds**.
 
 ## 🎯 Objective
+
 - Automatically detect service failures using Prometheus
 - Trigger alerts via Alertmanager
 - Execute automated recovery using Ansible
 - Reduce downtime from hours to under a minute
 
 ## 🛠️ Tools Used
+
 | Tool | Purpose |
 |------|---------|
 | **Prometheus** | Metrics collection and monitoring |
@@ -21,7 +23,8 @@ This project implements a self-healing infrastructure that automatically detects
 | **Docker Compose** | Orchestrating multi-container setup |
 
 ## 📁 Project Structure
-```
+
+```text
 self-healing-demo/
 ├── prometheus.yml          # Prometheus configuration
 ├── alert_rules.yml         # Alert rules for service failure
@@ -33,14 +36,15 @@ self-healing-demo/
 ```
 
 ## 🔄 How It Works
-```
+
+```text
 1. NGINX Service Running ✅
         ↓
-2. Prometheus Monitors Every 15s
+2. Prometheus Monitors Every 15 Seconds
         ↓
 3. Service Fails ❌
         ↓
-4. Prometheus Detects Failure (30s)
+4. Prometheus Detects Failure
         ↓
 5. Alert Fires: "NginxDown"
         ↓
@@ -48,46 +52,54 @@ self-healing-demo/
         ↓
 7. Flask Receives Webhook
         ↓
-8. Ansible Runs Playbook
+8. Ansible Executes Recovery Playbook
         ↓
 9. NGINX Restarts Automatically ✅
         ↓
-10. Service Back Online! 🎉
+10. Service Back Online 🎉
 ```
 
 ## 🚀 How to Run the Project
 
 ### Prerequisites
-- Docker and Docker Compose installed
-- Python 3 installed
-- Ansible installed
+
+- Docker
+- Docker Compose
+- Python 3
+- Ansible
 
 ### Step 1: Clone the Repository
+
 ```bash
 git clone https://github.com/Shreya-Upadhya/self-healing-demo.git
 cd self-healing-demo
 ```
 
 ### Step 2: Start Docker Containers
+
 ```bash
 docker-compose up -d
 ```
 
-### Step 3: Start Webhook Server
+### Step 3: Start the Webhook Server
+
 ```bash
 python3 webhook_server.py
 ```
 
-### Step 4: Test Auto-Healing
+### Step 4: Test the Self-Healing Mechanism
+
 ```bash
-# In another terminal, stop NGINX to simulate failure
+# Stop the NGINX container to simulate a failure
 docker stop nginx-demo
 
-# Wait 30-45 seconds
-# NGINX will automatically restart!
-```/
+# Wait approximately 30–45 seconds
+# The monitoring system will detect the failure,
+# trigger Alertmanager, and Ansible will restart NGINX automatically.
 ```
+
 ## 📊 Access Points
+
 | Service | URL |
 |---------|-----|
 | **Prometheus** | http://localhost:9090 |
@@ -96,26 +108,44 @@ docker stop nginx-demo
 | **Webhook Server** | http://localhost:5000/webhook |
 
 ## 🎯 Deliverables
-- ✅ Prometheus configuration (`prometheus.yml`)
-- ✅ Alertmanager webhook setup (`alertmanager.yml`)
-- ✅ Ansible playbook for recovery (`restart-nginx.yml`)
-- ✅ Flask webhook server (`webhook_server.py`)
-- ✅ Docker Compose orchestration (`docker-compose.yml`)
-- ✅ Alert rules (`alert_rules.yml`)
 
-## 📈 Demo
-The system was successfully tested by:
-1. Stopping the NGINX container manually
-2. Prometheus detected the failure within 30 seconds
-3. Alert fired and webhook was triggered
-4. Ansible automatically restarted NGINX
-5. Service recovered within 45 seconds
+- ✅ Prometheus configuration (`prometheus.yml`)
+- ✅ Alert rules (`alert_rules.yml`)
+- ✅ Alertmanager configuration (`alertmanager.yml`)
+- ✅ Ansible recovery playbook (`restart-nginx.yml`)
+- ✅ Flask webhook server (`webhook_server.py`)
+- ✅ Docker Compose setup (`docker-compose.yml`)
+
+## 📈 Demo Workflow
+
+The system was successfully tested using the following workflow:
+
+1. Manually stopped the NGINX container.
+2. Prometheus detected the service failure.
+3. Alertmanager generated and forwarded an alert via webhook.
+4. Flask webhook server received the alert.
+5. Ansible executed the recovery playbook.
+6. NGINX restarted automatically.
+7. Service became available again within **30–45 seconds**.
 
 ## 📝 Conclusion
-This project demonstrates key DevOps principles:
-- **Automation**: No manual intervention required
-- **Observability**: Full monitoring and alerting
-- **Resilience**: System recovers from failures automatically
-- **Self-Healing**: Infrastructure that fixes itself
 
-```
+This project demonstrates several key DevOps practices:
+
+- **Automation** – Recovery occurs without manual intervention.
+- **Observability** – Continuous monitoring using Prometheus.
+- **Alerting** – Immediate notifications through Alertmanager.
+- **Resilience** – Services recover automatically from failures.
+- **Self-Healing Infrastructure** – Reduced downtime and improved system reliability.
+
+---
+
+### Tech Stack
+
+- Prometheus
+- Alertmanager
+- Ansible
+- Docker
+- Docker Compose
+- Flask (Python)
+- NGINX
